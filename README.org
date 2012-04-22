@@ -1,0 +1,2 @@
+A collection of SMF manifect and scripts that I've copied and modified
+for my own use.
