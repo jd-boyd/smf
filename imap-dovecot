@@ -1,0 +1,31 @@
+#!/sbin/sh
+
+PID=/var/run/dovecot/master.pid
+LD_LIBRARY_PATH=/usr/lib:/usr/local/lib
+export LD_LIBRARY_PATH
+
+case "$1" in 
+'refresh')
+	if [ -f /opt/dovecot-2.1.1/etc/dovecot/dovecot.conf ]; then
+		kill -HUP `cat $PID`
+	fi	
+        ;;
+
+'start')
+	if [ -f /opt/dovecot-2.1.1/etc/dovecot/dovecot.conf ]; then
+		/opt/dovecot-2.1.1/sbin/dovecot
+	fi	
+	;;
+
+'stop')
+	if [ -f $PID ]; then
+		kill -QUIT `cat $PID` || true
+	fi
+	;;
+
+*)
+	echo "Usage: $0 { start | stop | refresh }"
+	exit 1
+	;;
+esac
+exit 0

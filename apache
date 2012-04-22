@@ -1,0 +1,28 @@
+#!/sbin/sh
+
+LD_LIBRARY_PATH=/usr/lib:/usr/local/lib
+export LD_LIBRARY_PATH
+
+case "$1" in 
+'refresh')
+	if [ -f /usr/local/apache2/conf/httpd.conf ]; then
+		/usr/local/apache2/bin/apachectl restart
+	fi	
+        ;;
+
+'start')
+	if [ -f /usr/local/apache2/conf/httpd.conf ]; then
+		/usr/local/apache2/bin/apachectl start
+	fi	
+	;;
+
+'stop')
+	/usr/local/apache2/bin/apachectl stop
+	;;
+
+*)
+	echo "Usage: $0 { start | stop | refresh }"
+	exit 1
+	;;
+esac
+exit 0

@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<!DOCTYPE service_bundle SYSTEM "/usr/share/lib/xml/dtd/service_bundle.dtd.1">
+
+<!--
+-->
+
+<service_bundle type="manifest" name="nginx">
+ <service name="network/nginx" type="service" version="0">
+   <create_default_instance enabled="true"/>
+   <single_instance/>
+
+   <dependency name="net" grouping="require_all" restart_on="none" type="service">
+     <service_fmri value="svc:/network/loopback"/>
+   </dependency>
+
+   <exec_method name="start" type="method" exec="/opt/nginx-1.0.3/sbin/nginx -c /opt/nginx-1.0.3/conf/nginx.conf" timeout_seconds="60">
+     <method_context working_directory="/opt/nginx-1.0.3/working-dir">
+<!--      <method_credential user="nginx" group="nginx" privileges="basic,net_privaddr"/> -->
+<method_credential user="root" group="root" />
+       <method_environment>
+         <envvar name="PATH" value="/opt/nginx-1.0.3/sbin:/usr/bin:/bin" />
+       </method_environment>
+     </method_context>
+   </exec_method>
+
+   <exec_method name="stop" type="method" exec="/usr/bin/pkill -QUIT nginx" timeout_seconds="60">
+     <method_context working_directory="/opt/nginx-1.0.3/working-dir">
+      <!--method_credential user="nginx" group="nginx" privileges="basic,net_privaddr"/-->
+      <method_credential user="root" group="root" />
+       <method_environment>
+         <envvar name="PATH" value="/opt/nginx-1.0.3/sbin:/usr/bin:/bin" />
+       </method_environment>
+     </method_context>
+   </exec_method>
+
+   <exec_method name="restart" type="method" exec="/opt/nginx-1.0.3/sbin/nginx -c /opt/nginx-1.0.3/conf/nginx.conf" timeout_seconds="60">
+     <method_context working_directory="/opt/nginx-1.0.3/working-dir">
+      <!--method_credential user="nginx" group="nginx" privileges="basic,net_privaddr"/-->
+      <method_credential user="root" group="root" />
+       <method_environment>
+         <envvar name="PATH" value="/opt/nginx-1.0.3/sbin:/usr/bin:/bin" />
+       </method_environment>
+     </method_context>
+   </exec_method>
+
+ </service>
+</service_bundle> 
